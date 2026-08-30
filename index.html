@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ATLAS Lab Publications</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b5cad'/%3E%3Cpath d='M14 48 31 12h4l16 36h-7l-4-9H25l-4 9h-7Zm14-16h9l-5-11-4 11Z' fill='white'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --ink: #222222;
+      --muted: #60656f;
+      --line: #d9d5cc;
+      --accent: #0b5cad;
+      --accent-soft: #e7f0fb;
+      --tag-bg: #eef4ee;
+      --tag-ink: #234c2f;
+      --shadow: 0 18px 44px rgba(33, 37, 41, 0.08);
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.58;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.18em;
+    }
+
+    a:hover,
+    a:focus {
+      text-decoration-thickness: 0.14em;
+    }
+
+    .page {
+      width: min(100% - 32px, 1040px);
+      margin: 0 auto;
+      padding: 56px 0 64px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 28px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: 1.04;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin-bottom: 18px;
+      color: #3d424a;
+      font-size: 1.05rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .members {
+      margin-top: 26px;
+    }
+
+    .members h2 {
+      margin-bottom: 12px;
+      font-size: 1rem;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .member-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .member-list a,
+    .jump-list a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      padding: 6px 13px;
+      color: var(--ink);
+      text-decoration: none;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+    }
+
+    .member-list a:hover,
+    .member-list a:focus,
+    .jump-list a:hover,
+    .jump-list a:focus {
+      border-color: #9db8d6;
+      background: var(--accent-soft);
+      color: #0b3e72;
+    }
+
+    .jump {
+      margin: 28px 0 18px;
+    }
+
+    .jump-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .year-section {
+      display: grid;
+      grid-template-columns: minmax(92px, 0.18fr) minmax(0, 1fr);
+      gap: 28px;
+      padding: 38px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .year-section:first-of-type {
+      border-top: 0;
+    }
+
+    .year-heading {
+      position: sticky;
+      top: 18px;
+      align-self: start;
+    }
+
+    .year-heading h2 {
+      margin-bottom: 2px;
+      font-size: clamp(1.7rem, 4vw, 2.75rem);
+      line-height: 1;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .pub-list {
+      display: grid;
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .publication {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .publication h3 {
+      margin-bottom: 7px;
+      font-size: 1.08rem;
+      line-height: 1.32;
+      font-weight: 720;
+      letter-spacing: 0;
+    }
+
+    .venue {
+      margin-bottom: 7px;
+      color: #333842;
+      font-weight: 650;
+    }
+
+    .authors {
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      align-items: center;
+    }
+
+    .tags,
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      background: var(--tag-bg);
+      padding: 3px 10px;
+      color: var(--tag-ink);
+      font-size: 0.84rem;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      padding: 3px 10px;
+      color: #0b4f91;
+      font-size: 0.84rem;
+      font-weight: 650;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .links a:hover,
+    .links a:focus {
+      background: #d5e7fa;
+      color: #063a6c;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    footer p {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 24px, 1040px);
+        padding-top: 36px;
+      }
+
+      .year-section {
+        display: block;
+        padding: 30px 0;
+      }
+
+      .year-heading {
+        position: static;
+        margin-bottom: 16px;
+      }
+
+      .publication {
+        padding: 16px 14px 14px;
+      }
+    }
+
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --shadow: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .member-list a,
+      .jump-list a,
+      .publication {
+        box-shadow: none;
+      }
+
+      .year-heading {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>ATLAS Lab Publications</h1>
+      <p class="meta">
+        <span>Last updated: <time datetime="2026-08-30">August 30, 2026</time></span>
+        <span>Scope: publications with UvA/ATLAS affiliation.</span>
+      </p>
+
+      <nav class="members" aria-label="ATLAS member links">
+        <h2>Members</h2>
+        <ul class="member-list">
+          <li><a href="https://scholar.google.com/citations?user=OK9eHHAAAAAJ&amp;hl=en">Aritra Bhowmik</a></li>
+          <li><a href="https://scholar.google.nl/citations?hl=nl&amp;user=welhhBIAAAAJ&amp;view_op=list_works&amp;sortby=pubdate">Duy-Kien Nguyen</a></li>
+          <li><a href="https://ozzyou.github.io/">Osman Ülger</a></li>
+          <li><a href="https://vladimiryugay.github.io/">Vladimir Yugay</a></li>
+          <li><a href="https://codename1995.github.io/">Weijie Wei</a></li>
+          <li><a href="https://unique1i.github.io/">Yue Li</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <nav class="jump" aria-label="Publication years">
+        <ul class="jump-list">
+          <li><a href="#year-2026">2026</a></li>
+          <li><a href="#year-2025">2025</a></li>
+          <li><a href="#year-2024">2024</a></li>
+          <li><a href="#year-2023">2023</a></li>
+          <li><a href="#year-2022">2022</a></li>
+          <li><a href="#year-2021">2021</a></li>
+        </ul>
+      </nav>
+
+      <section class="year-section" id="year-2026" aria-labelledby="heading-2026">
+        <div class="year-heading">
+          <h2 id="heading-2026">2026</h2>
+          <div class="count">6 publications</div>
+        </div>
+        <ol class="pub-list">
+          <li class="publication">
+            <article data-source="https://eccv.ecva.net/virtual/2026/spotlight/6072; https://www.ceessnoek.info/index.php/publications/; https://arxiv.org/abs/2503.16311" data-verified="2026-08-30" data-sort-date="2026-09-08">
+              <h3>Structured-Noise Masked Modeling for Video, Audio and Beyond</h3>
+              <p class="venue">ECCV 2026, Spotlight</p>
+              <p class="authors">Aritra Bhowmik, Fida Mohammad Thoker, Carlos Hinojosa, Bernard Ghanem, Cees G. M. Snoek</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Aritra Bhowmik</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2503.16311">Paper</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://arxiv.org/abs/2608.15651; https://amazingren.github.io/Gaussian-JEPA/; https://github.com/Amazingren/Gaussian-JEPA" data-verified="2026-08-30" data-sort-date="2026-08-16">
+              <h3>Gaussian-JEPA: Joint-Embedding Predictive Learning for 3D Gaussian Splats</h3>
+              <p class="venue">arXiv preprint, 2026</p>
+              <p class="authors">Bin Ren, Qi Ma, Yue Li, Zongyan Han, Yidi Li, Yuqian Fu, Rao Muhammad Anwer, Theo Gevers, Fahad Shahbaz Khan, Salman Khan</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2608.15651">Paper</a></li>
+                  <li><a href="https://amazingren.github.io/Gaussian-JEPA/">Project</a></li>
+                  <li><a href="https://github.com/Amazingren/Gaussian-JEPA">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://arxiv.org/abs/2512.17817; https://unique1i.github.io/research.html" data-verified="2026-08-30" data-sort-date="2026-06-05">
+              <h3>Chorus: Multi-Teacher Pretraining for Holistic 3D Gaussian Scene Encoding</h3>
+              <p class="venue">CVPR 2026, Oral Presentation</p>
+              <p class="authors">Yue Li*, Qi Ma*, Runyi Yang, Mengjiao Ma, Bin Ren, Nikola Popovic, Nicu Sebe, Theo Gevers, Luc Van Gool, Danda Pani Paudel<sup>†</sup>, Martin R. Oswald<sup>†</sup></p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2512.17817">Paper</a></li>
+                  <li><a href="https://gaussianworld.github.io/Chorus/">Project</a></li>
+                  <li><a href="https://github.com/GaussianWorld/Chorus">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://arxiv.org/abs/2506.06909; https://vladimiryugay.github.io/game/" data-verified="2026-08-30" data-sort-date="2026-06-05">
+              <h3>Gaussian Mapping for Evolving Scenes</h3>
+              <p class="venue">CVPR 2026</p>
+              <p class="authors">Vladimir Yugay*, Thies Kersten*, Luca Carlone, Theo Gevers, Martin R. Oswald, Lukas Schmid</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Vladimir Yugay</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2506.06909">Paper</a></li>
+                  <li><a href="https://vladimiryugay.github.io/game/">Project</a></li>
+                  <li><a href="https://github.com/VladimirYugay/game">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openaccess.thecvf.com/content/CVPR2026W/AUTOPILOT/html/Wei_Spatial-aware_Vision_Language_Model_for_Autonomous_Driving_CVPRW_2026_paper.html; https://arxiv.org/abs/2512.24331; https://codename1995.github.io/" data-verified="2026-08-30" data-sort-date="2026-06-03">
+              <h3>Spatial-aware Vision Language Model for Autonomous Driving</h3>
+              <p class="venue">CVPR Workshop 2026</p>
+              <p class="authors">Weijie Wei, Zhipeng Luo, Ling Feng, Venice Erin Liong</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Weijie Wei</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openaccess.thecvf.com/content/CVPR2026W/AUTOPILOT/html/Wei_Spatial-aware_Vision_Language_Model_for_Autonomous_Driving_CVPRW_2026_paper.html">Paper</a></li>
+                  <li><a href="https://arxiv.org/abs/2512.24331">arXiv</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openreview.net/forum?id=OR0ySm4l9h; https://arxiv.org/abs/2510.19022; https://ivi.fnwi.uva.nl/vislab/" data-verified="2026-08-30" data-sort-date="2026-04-23">
+              <h3>MoAlign: Motion-Centric Representation Alignment for Video Diffusion Models</h3>
+              <p class="venue">ICLR 2026</p>
+              <p class="authors">Aritra Bhowmik, Denis Korzhenkov, Cees G. M. Snoek, Amir Habibian, Mohsen Ghafoorian</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Aritra Bhowmik</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openreview.net/forum?id=OR0ySm4l9h">Paper</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section class="year-section" id="year-2025" aria-labelledby="heading-2025">
+        <div class="year-heading">
+          <h2 id="heading-2025">2025</h2>
+          <div class="count">13 publications</div>
+        </div>
+        <ol class="pub-list">
+          <li class="publication">
+            <article data-source="https://gaussianworld.github.io/SceneSplat%2B%2B/; https://arxiv.org/abs/2506.08710" data-verified="2026-08-30" data-sort-date="2025-12-03">
+              <h3>SceneSplat++: A Large Dataset and Comprehensive Benchmark for Language Gaussian Splatting</h3>
+              <p class="venue">NeurIPS 2025</p>
+              <p class="authors">Mengjiao Ma*, Qi Ma*, Yue Li*, Jiahuan Cheng, Runyi Yang, Bin Ren, Nikola Popovic, Mingqiang Wei, Nicu Sebe, Luc Van Gool, Theo Gevers, Martin R. Oswald, Danda Pani Paudel</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://gaussianworld.github.io/SceneSplat%2B%2B/">Project</a></li>
+                  <li><a href="https://arxiv.org/abs/2506.08710">Paper</a></li>
+                  <li><a href="https://huggingface.co/datasets/GaussianWorld/scene_splat_49k">Dataset</a></li>
+                  <li><a href="https://github.com/GaussianWorld/SceneSplat_Benchmark">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://arxiv.org/abs/2512.03683; https://basakmelisocal.github.io/; https://github.com/instyle3d/InStyle" data-verified="2026-08-30" data-sort-date="2025-12-03">
+              <h3>GaussianBlender: Instant Stylization of 3D Gaussians with Disentangled Latent Spaces</h3>
+              <p class="venue">arXiv preprint, 2025</p>
+              <p class="authors">Melis Öcal, Xiaoyan Xing, Yue Li, Vien Ngo, Sezer Karaoğlu, Theo Gevers</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2512.03683">Paper</a></li>
+                  <li><a href="https://github.com/instyle3d/InStyle">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openaccess.thecvf.com/content/ICCV2025/html/Ulger_Auto-Vocabulary_Semantic_Segmentation_ICCV_2025_paper.html; https://github.com/ozzyou/AutoSeg; https://ozzyou.github.io/autoseg.github.io/" data-verified="2026-08-30" data-sort-date="2025-10-21">
+              <h3>Auto-Vocabulary Semantic Segmentation</h3>
+              <p class="venue">ICCV 2025</p>
+              <p class="authors">Osman Ülger*, Maksymilian Kulicki*, Yuki Asano, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Osman Ülger</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openaccess.thecvf.com/content/ICCV2025/html/Ulger_Auto-Vocabulary_Semantic_Segmentation_ICCV_2025_paper.html">Paper</a></li>
+                  <li><a href="https://ozzyou.github.io/autoseg.github.io/">Project</a></li>
+                  <li><a href="https://github.com/ozzyou/AutoSeg">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openaccess.thecvf.com/content/ICCV2025/html/Li_SceneSplat_Gaussian_Splatting-based_Scene_Understanding_with_Vision-Language_Pretraining_ICCV_2025_paper.html; https://unique1i.github.io/SceneSplat_webpage/" data-verified="2026-08-30" data-sort-date="2025-10-21">
+              <h3>SceneSplat: Gaussian Splatting-based Scene Understanding with Vision-Language Pretraining</h3>
+              <p class="venue">ICCV 2025, Oral Presentation</p>
+              <p class="authors">Yue Li*, Qi Ma*, Runyi Yang, Huapeng Li, Mengjiao Ma, Bin Ren, Nikola Popovic, Nicu Sebe, Ender Konukoglu, Theo Gevers, Luc Van Gool, Martin R. Oswald, Danda Pani Paudel</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openaccess.thecvf.com/content/ICCV2025/html/Li_SceneSplat_Gaussian_Splatting-based_Scene_Understanding_with_Vision-Language_Pretraining_ICCV_2025_paper.html">Paper</a></li>
+                  <li><a href="https://unique1i.github.io/SceneSplat_webpage/">Project</a></li>
+                  <li><a href="https://huggingface.co/datasets/GaussianWorld/scene_splat_7k">Dataset</a></li>
+                  <li><a href="https://github.com/unique1i/SceneSplat">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://ivi.fnwi.uva.nl/vislab/publication/aritra-iccv-2025/" data-verified="2026-08-30" data-sort-date="2025-10-21">
+              <h3>TWIST &amp; SCOUT: Grounding Multimodal LLM-Experts by Forget-Free Tuning</h3>
+              <p class="venue">ICCV 2025</p>
+              <p class="authors">Aritra Bhowmik, Mohammad Mahdi Derakhshani, Dennis Koelma, Yuki M. Asano, Martin R. Oswald, Cees G. M. Snoek</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Aritra Bhowmik</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://ivi.fnwi.uva.nl/vislab/publication/aritra-iccv-2025/">Paper</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://vladimiryugay.github.io/fvo/index.html" data-verified="2026-08-30" data-sort-date="2025-10-02">
+              <h3>FVO: Fast Visual Odometry with Transformers</h3>
+              <p class="venue">arXiv preprint, 2025</p>
+              <p class="authors">Vladimir Yugay*, Duy-Kien Nguyen*, Theo Gevers, Cees Snoek, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Vladimir Yugay</li>
+                  <li class="tag">Duy-Kien Nguyen</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2510.03348">Paper</a></li>
+                  <li><a href="https://vladimiryugay.github.io/fvo/index.html">Project</a></li>
+                  <li><a href="https://github.com/VladimirYugay/FVO">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openaccess.thecvf.com/content/CVPR2025/html/Wei_3D-AVS_LiDAR-based_3D_Auto-Vocabulary_Segmentation_CVPR_2025_paper.html; https://codename1995.github.io/; https://ozzyou.github.io/" data-verified="2026-08-30" data-sort-date="2025-06-13">
+              <h3>3D-AVS: LiDAR-based 3D Auto-Vocabulary Segmentation</h3>
+              <p class="venue">CVPR 2025</p>
+              <p class="authors">Weijie Wei*, Osman Ülger*, Fatemeh Karimi Nejadasl, Theo Gevers, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Weijie Wei</li>
+                  <li class="tag">Osman Ülger</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openaccess.thecvf.com/content/CVPR2025/html/Wei_3D-AVS_LiDAR-based_3D_Auto-Vocabulary_Segmentation_CVPR_2025_paper.html">Paper</a></li>
+                  <li><a href="https://ozzyou.github.io/3d-avs.github.io/">Project</a></li>
+                  <li><a href="https://github.com/ozzyou/3D-AVS">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openaccess.thecvf.com/content/CVPR2025/html/Yugay_MAGiC-SLAM_Multi-Agent_Gaussian_Globally_Consistent__SLAM_CVPR_2025_paper.html; https://vladimiryugay.github.io/magic_slam/index.html" data-verified="2026-08-30" data-sort-date="2025-06-13">
+              <h3>MAGiC-SLAM: Multi-Agent Gaussian Globally Consistent SLAM</h3>
+              <p class="venue">CVPR 2025</p>
+              <p class="authors">Vladimir Yugay, Theo Gevers, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Vladimir Yugay</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openaccess.thecvf.com/content/CVPR2025/html/Yugay_MAGiC-SLAM_Multi-Agent_Gaussian_Globally_Consistent__SLAM_CVPR_2025_paper.html">Paper</a></li>
+                  <li><a href="https://vladimiryugay.github.io/magic_slam/index.html">Project</a></li>
+                  <li><a href="https://github.com/VladimirYugay/MAGiC-SLAM">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openreview.net/forum?id=tjNf0L8QjR; https://arxiv.org/abs/2406.09415; https://www.ceessnoek.info/index.php/publications/" data-verified="2026-08-30" data-sort-date="2025-04-24">
+              <h3>An Image is Worth More Than 16x16 Patches: Exploring Transformers on Individual Pixels</h3>
+              <p class="venue">ICLR 2025</p>
+              <p class="authors">Duy-Kien Nguyen, Mahmoud Assran, Unnat Jain, Martin R. Oswald, Cees G. M. Snoek, Xinlei Chen</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Duy-Kien Nguyen</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openreview.net/forum?id=tjNf0L8QjR">Paper</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://ivi.fnwi.uva.nl/vislab/publication/aritra-iclr-2025/; https://arxiv.org/abs/2311.18512; https://www.ceessnoek.info/index.php/publications/" data-verified="2026-08-30" data-sort-date="2025-04-24">
+              <h3>Union-over-Intersections: Object Detection beyond Winner-Takes-All</h3>
+              <p class="venue">ICLR 2025, Spotlight</p>
+              <p class="authors">Aritra Bhowmik, Pascal Mettes, Martin R. Oswald, Cees G. M. Snoek</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Aritra Bhowmik</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://ivi.fnwi.uva.nl/vislab/publication/aritra-iclr-2025/">Paper</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://loopsplat.github.io/; https://arxiv.org/abs/2408.10154" data-verified="2026-08-30" data-sort-date="2025-03-25">
+              <h3>LoopSplat: Loop Closure by Registering 3D Gaussian Splats</h3>
+              <p class="venue">3DV 2025, Oral Presentation</p>
+              <p class="authors">Liyuan Zhu, Yue Li, Erik Sandström, Shengyu Huang, Konrad Schindler, Iro Armeni</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://loopsplat.github.io/">Project</a></li>
+                  <li><a href="https://arxiv.org/abs/2408.10154">Paper</a></li>
+                  <li><a href="https://github.com/GradientSpaces/LoopSplat">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://unique1i.github.io/ShapeSplat_webpage/; https://arxiv.org/abs/2408.10906" data-verified="2026-08-30" data-sort-date="2025-03-25">
+              <h3>ShapeSplat: A Large-scale Dataset of Gaussian Splats and Their Self-Supervised Pretraining</h3>
+              <p class="venue">3DV 2025, Oral Presentation</p>
+              <p class="authors">Qi Ma*, Yue Li*, Bin Ren, Nicu Sebe, Ender Konukoglu, Theo Gevers, Luc Van Gool, Danda Pani Paudel</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://unique1i.github.io/ShapeSplat_webpage/">Project</a></li>
+                  <li><a href="https://arxiv.org/abs/2408.10906">Paper</a></li>
+                  <li><a href="https://huggingface.co/datasets/ShapeNet/ShapeSplatsV1">Dataset</a></li>
+                  <li><a href="https://github.com/qimaqi/ShapeSplat-Gaussian_MAE">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openreview.net/forum?id=6LO1y8ZE0F; https://arxiv.org/abs/2310.05920; https://www.ceessnoek.info/index.php/publications/; https://github.com/kienduynguyen/SimPLR" data-verified="2026-08-30" data-sort-date="2025-02-01">
+              <h3>SimPLR: A Simple and Plain Transformer for Scaling-Efficient Object Detection and Segmentation</h3>
+              <p class="venue">Transactions on Machine Learning Research, 2025</p>
+              <p class="authors">Duy-Kien Nguyen, Martin R. Oswald, Cees G. M. Snoek</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Duy-Kien Nguyen</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openreview.net/forum?id=6LO1y8ZE0F">Paper</a></li>
+                  <li><a href="https://github.com/kienduynguyen/SimPLR">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section class="year-section" id="year-2024" aria-labelledby="heading-2024">
+        <div class="year-heading">
+          <h2 id="heading-2024">2024</h2>
+          <div class="count">4 publications</div>
+        </div>
+        <ol class="pub-list">
+          <li class="publication">
+            <article data-source="https://papers.nips.cc/paper_files/paper/2024/hash/e6209a02394269f14c29e049f4e05c42-Abstract-Conference.html; https://arxiv.org/abs/2411.02229" data-verified="2026-08-30" data-sort-date="2024-12-11">
+              <h3>FewViewGS: Gaussian Splatting with Few View Matching and Multi-stage Training</h3>
+              <p class="venue">NeurIPS 2024</p>
+              <p class="authors">Ruihong Yin, Vladimir Yugay, Yue Li, Sezer Karaoglu, Theo Gevers</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Vladimir Yugay</li>
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2411.02229">Paper</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://codename1995.github.io/t-mae.github.io/; https://arxiv.org/abs/2312.10217" data-verified="2026-08-30" data-sort-date="2024-10-01">
+              <h3>T-MAE: Temporal Masked Autoencoders for Point Cloud Representation Learning</h3>
+              <p class="venue">ECCV 2024</p>
+              <p class="authors">Weijie Wei, Fatemeh Karimi Nejadasl, Theo Gevers, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Weijie Wei</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2312.10217">Paper</a></li>
+                  <li><a href="https://codename1995.github.io/t-mae.github.io/">Project</a></li>
+                  <li><a href="https://github.com/codename1995/T-MAE">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://notchla.github.io/Loopy-SLAM/; https://arxiv.org/abs/2402.09944" data-verified="2026-08-30" data-sort-date="2024-06-19">
+              <h3>Loopy-SLAM: Dense Neural SLAM with Loop Closures</h3>
+              <p class="venue">CVPR 2024</p>
+              <p class="authors">Lorenzo Liso*, Erik Sandström*, Vladimir Yugay, Luc Van Gool, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Vladimir Yugay</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2402.09944">Paper</a></li>
+                  <li><a href="https://notchla.github.io/Loopy-SLAM/">Project</a></li>
+                  <li><a href="https://github.com/eriksandstroem/Loopy-SLAM">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://ivi.fnwi.uva.nl/vislab/publication/nguyen-iclr-2024/; https://arxiv.org/abs/2306.05411" data-verified="2026-08-30" data-sort-date="2024-05-07">
+              <h3>R-MAE: Regions Meet Masked Autoencoders</h3>
+              <p class="venue">ICLR 2024</p>
+              <p class="authors">Duy-Kien Nguyen, Vaibhav Aggarwal, Yanghao Li, Martin R. Oswald, Alexander Kirillov, Cees G. M. Snoek, Xinlei Chen</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Duy-Kien Nguyen</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://ivi.fnwi.uva.nl/vislab/publication/nguyen-iclr-2024/">Paper</a></li>
+                  <li><a href="https://github.com/facebookresearch/r-mae">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section class="year-section" id="year-2023" aria-labelledby="heading-2023">
+        <div class="year-heading">
+          <h2 id="heading-2023">2023</h2>
+          <div class="count">4 publications</div>
+        </div>
+        <ol class="pub-list">
+          <li class="publication">
+            <article data-source="https://arxiv.org/abs/2312.10070; https://vladimiryugay.github.io/gaussian_slam/index.html" data-verified="2026-08-30" data-sort-date="2023-12-06">
+              <h3>Gaussian-SLAM: Photo-realistic Dense SLAM with Gaussian Splatting</h3>
+              <p class="venue">arXiv preprint, 2023</p>
+              <p class="authors">Vladimir Yugay, Yue Li, Theo Gevers, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Vladimir Yugay</li>
+                  <li class="tag">Yue Li</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2312.10070">Paper</a></li>
+                  <li><a href="https://vladimiryugay.github.io/gaussian_slam/index.html">Project</a></li>
+                  <li><a href="https://github.com/VladimirYugay/Gaussian-SLAM">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://ivi.fnwi.uva.nl/vislab/publication/aritra-iccv-2023/" data-verified="2026-08-30" data-sort-date="2023-10-04">
+              <h3>Detecting Objects with Context-Likelihood Graphs and Graph Refinement</h3>
+              <p class="venue">ICCV 2023</p>
+              <p class="authors">Aritra Bhowmik, Yu Wang, Nora Baka, Martin R. Oswald, Cees G. M. Snoek</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Aritra Bhowmik</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://ivi.fnwi.uva.nl/vislab/publication/aritra-iccv-2023/">Paper</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openaccess.thecvf.com/content/ICCV2023W/SHARP/html/Wei_APNet_Urban-Level_Scene_Segmentation_of_Aerial_Images_and_Point_Clouds_ICCVW_2023_paper.html; https://codename1995.github.io/" data-verified="2026-08-30" data-sort-date="2023-10-02">
+              <h3>APNet: Urban-Level Scene Segmentation of Aerial Images and Point Clouds</h3>
+              <p class="venue">ICCV Workshop 2023</p>
+              <p class="authors">Weijie Wei, Martin R. Oswald, Fatemeh Karimi Nejadasl, Theo Gevers</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Weijie Wei</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openaccess.thecvf.com/content/ICCV2023W/SHARP/html/Wei_APNet_Urban-Level_Scene_Segmentation_of_Aerial_Images_and_Point_Clouds_ICCVW_2023_paper.html">Paper</a></li>
+                  <li><a href="https://github.com/codename1995/APNet_ICCVW23">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://openaccess.thecvf.com/content/ICCV2023W/SG2RL/html/Ulger_Relational_Prior_Knowledge_Graphs_for_Detection_and_Instance_Segmentation_ICCVW_2023_paper.html; https://arxiv.org/abs/2310.07573; https://ozzyou.github.io/" data-verified="2026-08-30" data-sort-date="2023-10-02">
+              <h3>Relational Prior Knowledge Graphs for Detection and Instance Segmentation</h3>
+              <p class="venue">ICCV Workshop 2023</p>
+              <p class="authors">Osman Ülger, Yu Wang, Ysbrand Galama, Sezer Karaoglu, Theo Gevers, Martin R. Oswald</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Osman Ülger</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://openaccess.thecvf.com/content/ICCV2023W/SG2RL/html/Ulger_Relational_Prior_Knowledge_Graphs_for_Detection_and_Instance_Segmentation_ICCVW_2023_paper.html">Paper</a></li>
+                  <li><a href="https://arxiv.org/abs/2310.07573">arXiv</a></li>
+                  <li><a href="https://github.com/ozzyou/RP-FEM/tree/main">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section class="year-section" id="year-2022" aria-labelledby="heading-2022">
+        <div class="year-heading">
+          <h2 id="heading-2022">2022</h2>
+          <div class="count">2 publications</div>
+        </div>
+        <ol class="pub-list">
+          <li class="publication">
+            <article data-source="https://arxiv.org/abs/2212.02875; https://pure.uva.nl/ws/files/202204806/0968.pdf" data-verified="2026-08-30" data-sort-date="2022-11-21">
+              <h3>Multi-Task Edge Prediction in Temporally-Dynamic Video Graphs</h3>
+              <p class="venue">BMVC 2022</p>
+              <p class="authors">Osman Ülger, Julian Wiederer, Mohsen Ghafoorian, Vasileios Belagiannis, Pascal Mettes</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Osman Ülger</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://arxiv.org/abs/2212.02875">Paper</a></li>
+                  <li><a href="https://github.com/ozzyou/MTD-GNN">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+
+          <li class="publication">
+            <article data-source="https://ivi.fnwi.uva.nl/vislab/publication/nguyen-cvpr-2022/; https://arxiv.org/abs/2111.13087" data-verified="2026-08-30" data-sort-date="2022-06-21">
+              <h3>BoxeR: Box-Attention for 2D and 3D Transformers</h3>
+              <p class="venue">CVPR 2022</p>
+              <p class="authors">Duy-Kien Nguyen, Jihong Ju, Olaf Booij, Martin R. Oswald, Cees Snoek</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Duy-Kien Nguyen</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://ivi.fnwi.uva.nl/vislab/publication/nguyen-cvpr-2022/">Paper</a></li>
+                  <li><a href="https://github.com/kienduynguyen/BoxeR">Code</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+        </ol>
+      </section>
+
+      <section class="year-section" id="year-2021" aria-labelledby="heading-2021">
+        <div class="year-heading">
+          <h2 id="heading-2021">2021</h2>
+          <div class="count">1 publication</div>
+        </div>
+        <ol class="pub-list">
+          <li class="publication">
+            <article data-source="https://dblp.org/rec/conf/mm/MohazzabVWLPB21" data-verified="2026-08-30" data-sort-date="2021-10-21">
+              <h3>ArtiVisual: A Platform to Generate and Compare Art</h3>
+              <p class="venue">ACM Multimedia 2021</p>
+              <p class="authors">Jardenna Mohazzab, Abe Vos, Jonathan van Westendorp, Lucas Lageweg, Dylan Prins, Aritra Bhowmik</p>
+              <div class="details">
+                <ul class="tags" aria-label="ATLAS members">
+                  <li class="tag">Aritra Bhowmik</li>
+                </ul>
+                <ul class="links" aria-label="Publication links">
+                  <li><a href="https://dblp.org/rec/conf/mm/MohazzabVWLPB21">Record</a></li>
+                </ul>
+              </div>
+            </article>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+  </div>
+</body>
+</html>
