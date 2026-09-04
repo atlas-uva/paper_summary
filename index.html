@@ -94,6 +94,18 @@
       margin-top: 26px;
     }
 
+    .leadership {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 40px;
+      margin-top: 26px;
+    }
+
+    .leadership > div {
+      min-width: 0;
+    }
+
+    .leadership h2,
     .members h2 {
       margin-bottom: 12px;
       font-size: 1rem;
@@ -323,9 +335,25 @@
     <header>
       <h1>ATLAS Lab Publications</h1>
       <p class="meta">
-        <span>Last updated: <time datetime="2026-08-30">August 30, 2026</time></span>
+        <span>Last updated: <time datetime="2026-09-04">September 4, 2026</time></span>
         <span>Scope: publications with UvA/ATLAS affiliation.</span>
       </p>
+
+      <nav class="leadership" aria-label="ATLAS lab leadership" data-source="https://icai.ai/lab/atlas-lab/" data-verified="2026-09-04">
+        <div>
+          <h2>Lab Directors</h2>
+          <ul class="member-list">
+            <li><a href="https://www.ceessnoek.info/">Cees Snoek</a></li>
+            <li><a href="https://staff.fnwi.uva.nl/th.gevers/">Theo Gevers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Lab Manager</h2>
+          <ul class="member-list">
+            <li><a href="https://oswaldm.github.io/">Martin Oswald</a></li>
+          </ul>
+        </div>
+      </nav>
 
       <nav class="members" aria-label="ATLAS member links">
         <h2>Members</h2>
